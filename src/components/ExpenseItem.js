@@ -12,7 +12,6 @@ const ExpenseItem = (props) => {
         });
     };
 
-    //ToDo: change name to id => multiple names cause problems?
     const increaseAllocation = (name) => {
         const expense = {
             name: name,

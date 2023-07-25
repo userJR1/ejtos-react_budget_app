@@ -16,7 +16,7 @@ export const AppReducer = (state, action) => {
             if(total_budget <= state.budget) {
                 total_budget = 0;
                 state.expenses.map((currentExp)=> {
-                    if(currentExp.name === action.payload.name) {
+                    if(currentExp.id === action.payload.name) {
                         currentExp.cost = action.payload.cost + currentExp.cost;
                     }
                     return currentExp
@@ -32,7 +32,7 @@ export const AppReducer = (state, action) => {
             }
             case 'RED_EXPENSE':
                 const red_expenses = state.expenses.map((currentExp)=> {
-                    if (currentExp.name === action.payload.name && currentExp.cost - action.payload.cost >= 0) {
+                    if (currentExp.id === action.payload.name && currentExp.cost - action.payload.cost >= 0) {
                         currentExp.cost =  currentExp.cost - action.payload.cost;
                         budget = state.budget + action.payload.cost
                     }
@@ -46,7 +46,7 @@ export const AppReducer = (state, action) => {
             case 'DELETE_EXPENSE':
             action.type = "DONE";
             state.expenses.map((currentExp)=> {
-                if (currentExp.name === action.payload) {
+                if (currentExp.id === action.payload) {
                     budget = state.budget + currentExp.cost
                     currentExp.cost =  0;
                 }
@@ -83,7 +83,7 @@ const initialState = {
         { id: "Marketing", name: 'Marketing', cost: 50 },
         { id: "Finance", name: 'Finance', cost: 300 },
         { id: "Sales", name: 'Sales', cost: 70 },
-        { id: "Human Resource", name: 'Human Resource', cost: 40 },
+        { id: "HR", name: 'Human Resource', cost: 40 },
         { id: "IT", name: 'IT', cost: 500 },
         { id: "Admin", name: 'Admin', cost: 0 },
     ],

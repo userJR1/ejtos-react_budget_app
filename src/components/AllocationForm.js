@@ -4,14 +4,17 @@ import { AppContext } from '../context/AppContext';
 const AllocationForm = (props) => {
     const { dispatch,remaining  } = useContext(AppContext);
 
+    const { currency } = useContext(AppContext);
+
     const [name, setName] = useState('');
-    const [cost, setCost] = useState('');
+    const [cost, setCost] = useState('0');
     const [action, setAction] = useState('');
+    const [inputValid, setinputValid] = useState(true);
 
     const submitEvent = () => {
 
             if(cost > remaining) {
-                alert("The value cannot exceed remaining funds  £"+remaining);
+                alert("The value cannot exceed remaining funds "+StaticRange.currency+remaining);
                 setCost("");
                 return;
             }
@@ -41,9 +44,23 @@ const AllocationForm = (props) => {
         }
     };
 
+    function isNumeric(str) {
+        if (typeof str != "string") return false 
+        return !isNaN(str) &&
+               !isNaN(parseFloat(str))
+      }
+
+    const handleSetCost = (e) => {
+        const cost = e.target.value;
+        console.log(cost);
+        console.log(isNumeric(cost));
+        setinputValid(isNumeric(cost));
+        setCost(cost);
+    };
+
     return (
-        <div className="input-group mb-3">
-            <select className="input-group-text" id="inputGroupSelect01" onChange={(event) => setName(event.target.value)}>
+        <div className="input-group mb-3 needs-validation">
+            <select className="input-group-text" id="inputGroupSelect01" required='required' onChange={(event) => {console.log(event.target.value);setName(event.target.value)}}>
                 <option disabled selected value>Department...</option>
                 <option value="Marketing" name="marketing"> Marketing</option>
                 <option value="Sales" name="sales">Sales</option>
@@ -59,20 +76,24 @@ const AllocationForm = (props) => {
             <button className="btn btn-outline-success" onClick={toggleAction}>Add</button>
             }
 
-            <input
-                required='required'
-                type='number'
-                className="form-control"
-                aria-label="cost" aria-describedby="basic-addon1"
-                id='cost'
-                value={cost}
-                placeholder="Cost"
-                onChange={(event) => setCost(event.target.value)}>
-            </input>
-
+            <span className="input-group-text" id="basic-addon1">{currency}</span>
+            <form className="form-floating">
+                <input
+                    required='required'
+                    className={"form-control "+ (inputValid ? "is-valid":"is-invalid")}
+                    aria-label="cost" aria-describedby="basic-addon1"
+                    id='cost'
+                    value={cost}
+                    placeholder="Cost"
+                    onChange={handleSetCost}>
+                </input>
+                <label for="cost">
+                    {inputValid ? "Cost": "Cost must be numeric!"}
+                </label>
+            </form>
+                
             
-        
-            <button className="btn btn-primary" onClick={submitEvent}>
+            <button className="btn btn-primary" disabled={!inputValid} onClick={submitEvent}>
             {
             action === 'Reduce' ? 
             "Reduce Expenses":

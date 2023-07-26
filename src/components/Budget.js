@@ -47,7 +47,7 @@ const Budget = () => {
 
     return (
         <div className='alert alert-secondary'>
-            <div>Budget: £
+            <div>Budget: {currency}
             <input className="w-50 ms-3" type="number" id="number" step="10" value={localBudged} onChange={handleBudged} onBlur={submitBudged} onClick={submitBudged}/>
             </div>
         </div>

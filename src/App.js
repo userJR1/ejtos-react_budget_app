@@ -1,6 +1,8 @@
 import React from 'react';
 
+import 'bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import './customCss/customSelect.css';
 
 //Code to import Budget.js
 import Budget from './components/Budget';
